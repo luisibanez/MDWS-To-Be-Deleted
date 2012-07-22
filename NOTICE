@@ -1,0 +1,53 @@
+Medical Domain Web Services (MDWS)
+
+LICENSING
+
+MDWS was developed by the US Department of Veterans Affairs, and therefore its
+source code is in the Public Domain. OSEHRA is hosting the project and has
+adopted the Apache 2.0 License for contributions made by community members.
+You will find the text of the Apache 2.0 License in the LICENSE File.
+
+
+THIRD PARTY LIBRARIES
+
+This project is including a set of third party packages.
+Their names, copyright holders and Licenses are listed below.
+
+
+* Cookie Plugin
+  Copyright (c) 2006 Klaus Hartl (stilbuero.de)
+  Dual licensed under the MIT and GPL licenses:
+  http://www.opensource.org/licenses/mit-license.php
+  http://www.gnu.org/licenses/gpl.html
+
+  Used here under the MIT license.
+
+
+* jQuery JavaScript Library v1.4
+  http://jquery.com/
+
+  Copyright 2010, John Resig
+  Dual licensed under the MIT or GPL Version 2 licenses.
+  http://docs.jquery.com/License
+
+  Used here under the MIT License
+
+
+* Includes Sizzle.js
+  http://sizzlejs.com/
+  Copyright 2010, The Dojo Foundation
+  Released under the MIT, BSD, and GPL Licenses.
+
+  Used here under the MIT License
+
+
+* nhapi
+  Copyright, Chad Chenoweth
+  http://sourceforge.net/projects/nhapi/
+  Mozilla Public License 1.1 (MPL 1.1)
+
+
+* log4net
+  http://logging.apache.org/log4net/index.html
+  Released under the Apache 2.0 License
+
