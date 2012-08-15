@@ -15,7 +15,6 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,7 +30,6 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,60 +58,62 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="antlr.runtime, Version=2.7.6.2, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <HintPath>resources\lib\spring\lib\antlr.runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging, Version=1.2.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e">
-      <HintPath>resources\lib\spring\lib\Common.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging.EntLib, Version=1.2.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>resources\lib\spring\bin\Common.Logging.EntLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging.Log4Net, Version=1.2.0.2, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>resources\lib\spring\bin\Common.Logging.Log4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging.Log4Net129, Version=1.2.0.1, Culture=neutral, PublicKeyToken=af08829b84f0328e">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>resources\lib\spring\bin\Common.Logging.Log4Net129.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging.NLog, Version=1.2.0.2, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>resources\lib\spring\bin\Common.Logging.NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.2.9.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
-    <Reference Include="Oracle.DataAccess, Version=4.112.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86" />
-    <Reference Include="Spring.Aop, Version=1.1.2.20125, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL" />
-    <Reference Include="Spring.Core, Version=1.1.2.20125, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL" />
-    <Reference Include="Spring.Data, Version=1.1.2.20125, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL" />
-    <Reference Include="Spring.Data.NHibernate, Version=1.1.2.20125, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>resources\lib\spring\bin\Spring.Data.NHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="Spring.Data.NHibernate12, Version=1.1.2.20125, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>resources\lib\spring\bin\Spring.Data.NHibernate12.dll</HintPath>
-    </Reference>
-    <Reference Include="Spring.Services, Version=1.1.2.20125, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL" />
-    <Reference Include="Spring.Testing.NUnit, Version=1.1.2.20125, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>resources\lib\spring\bin\Spring.Testing.NUnit.dll</HintPath>
-    </Reference>
-    <Reference Include="Spring.Web, Version=1.1.2.20125, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL" />
-    <Reference Include="Spring.Web.Extensions, Version=1.1.2.20125, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>resources\lib\spring\bin\Spring.Web.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TOReflection, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>resources\lib\toreflection\TOReflection.dll</HintPath>
+    <Reference Include="System.Configuration" />
+    <Reference Include="antlr.runtime, Version=2.7.6.2, Culture=neutral, PublicKeyToken=65e474d141e25e07">
+      <HintPath>resources\lib\spring\lib\antlr.runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging, Version=1.1.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e">
+      <HintPath>resources\lib\spring\lib\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.EntLib">
+      <HintPath>resources\lib\spring\bin\Common.Logging.EntLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Log4Net">
+      <HintPath>resources\lib\spring\bin\Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Log4Net129">
+      <HintPath>resources\lib\spring\bin\Common.Logging.Log4Net129.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.NLog">
+      <HintPath>resources\lib\spring\bin\Common.Logging.NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Data.NHibernate">
+      <HintPath>resources\lib\spring\bin\Spring.Data.NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Data.NHibernate12">
+      <HintPath>resources\lib\spring\bin\Spring.Data.NHibernate12.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Testing.NUnit">
+      <HintPath>resources\lib\spring\bin\Spring.Testing.NUnit.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Web.Extensions">
+      <HintPath>resources\lib\spring\bin\Spring.Web.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="nunit.framework, Version=2.2.9.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <HintPath>resources\lib\nunit\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Aop, Version=1.1.0.2, Culture=neutral, PublicKeyToken=null">
+      <HintPath>resources\lib\spring\bin\Spring.Aop.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core, Version=1.1.0.2, Culture=neutral, PublicKeyToken=null">
+      <HintPath>resources\lib\spring\bin\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Data, Version=1.1.0.2, Culture=neutral, PublicKeyToken=null">
+      <HintPath>resources\lib\spring\bin\Spring.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Services, Version=1.1.0.2, Culture=neutral, PublicKeyToken=null">
+      <HintPath>resources\lib\spring\bin\Spring.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Web, Version=1.1.0.2, Culture=neutral, PublicKeyToken=null">
+      <HintPath>resources\lib\spring\bin\Spring.Web.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
