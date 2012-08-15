@@ -250,7 +250,8 @@ namespace gov.va.medora.mdws
                 {
                     PersonTO pto = new PersonTO(p);
                     DemographicsRecord rec = new DemographicsRecord(pto, source);
-                    long hashcode = new TOReflection.TOEqualizer(rec).HashCode;
+                    //long hashcode = new TOReflection.TOEqualizer(rec).HashCode;
+					long hashcode = new long();
                     if (!ht.ContainsKey(hashcode))
                     {
                         ht.Add(hashcode, rec);
