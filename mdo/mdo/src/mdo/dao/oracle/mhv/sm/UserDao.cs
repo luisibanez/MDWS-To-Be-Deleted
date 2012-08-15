@@ -20,7 +20,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Oracle.DataAccess.Client;
+using System.Data.OracleClient;
 using gov.va.medora.mdo.exceptions;
 using System.Data;
 using gov.va.medora.mdo.domain.sm;
@@ -63,7 +63,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
             //query.Command.Parameters = new OracleParameterCollection();
-            OracleParameter userIdParam = new OracleParameter("userId", OracleDbType.Decimal);
+            OracleParameter userIdParam = new OracleParameter("userId", OracleType.Number);
             userIdParam.Value = userId;
             query.Command.Parameters.Add(userIdParam);
 
@@ -87,7 +87,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
             //query.Command.Parameters = new OracleParameterCollection();
-            OracleParameter icnParam = new OracleParameter("icn", OracleDbType.Varchar2, 50);
+            OracleParameter icnParam = new OracleParameter("icn", OracleType.VarChar, 50);
             icnParam.Value = icn;
             query.Command.Parameters.Add(icnParam);
 
@@ -210,7 +210,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter userIdParam = new OracleParameter("userId", OracleDbType.Decimal);
+            OracleParameter userIdParam = new OracleParameter("userId", OracleType.Number);
             userIdParam.Value = userId;
             query.Command.Parameters.Add(userIdParam);
 
@@ -237,7 +237,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter userIdParam = new OracleParameter("userId", OracleDbType.Decimal);
+            OracleParameter userIdParam = new OracleParameter("userId", OracleType.Number);
             userIdParam.Value = userId;
             query.Command.Parameters.Add(userIdParam);
 
@@ -289,7 +289,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter groupIdParam = new OracleParameter("groupId", OracleDbType.Decimal);
+            OracleParameter groupIdParam = new OracleParameter("groupId", OracleType.Number);
             groupIdParam.Value = Convert.ToDecimal(groupId);
             query.Command.Parameters.Add(groupIdParam);
 
@@ -363,19 +363,19 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter lastEmailNotificationParam = new OracleParameter("lastEmailNotification", OracleDbType.Date);
-            lastEmailNotificationParam.Value = (Oracle.DataAccess.Types.OracleDate)DateTime.Now;
+            OracleParameter lastEmailNotificationParam = new OracleParameter("lastEmailNotification", OracleType.DateTime);
+			lastEmailNotificationParam.Value = DateTime.Now;
             query.Command.Parameters.Add(lastEmailNotificationParam);
 
-            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleDbType.Decimal);
+            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleType.Number);
             oplockPlusOneParam.Value = user.Oplock + 1;
             query.Command.Parameters.Add(oplockPlusOneParam);
 
-            OracleParameter userIdParam = new OracleParameter("userId", OracleDbType.Decimal);
+            OracleParameter userIdParam = new OracleParameter("userId", OracleType.Number);
             userIdParam.Value = Convert.ToDecimal(user.Id);
             query.Command.Parameters.Add(userIdParam);
 
-            OracleParameter oplockParam = new OracleParameter("oplock", OracleDbType.Decimal);
+            OracleParameter oplockParam = new OracleParameter("oplock", OracleType.Number);
             oplockParam.Value = Convert.ToDecimal(user.Oplock);
             query.Command.Parameters.Add(oplockParam);
 

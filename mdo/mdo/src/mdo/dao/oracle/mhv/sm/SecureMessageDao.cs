@@ -21,8 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using gov.va.medora.mdo.domain.sm;
-//using System.Data.OracleClient;
-using Oracle.DataAccess.Client;
+using System.Data.OracleClient;
 
 using System.Data;
 using gov.va.medora.mdo.exceptions;
@@ -66,7 +65,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter messageIdParam = new OracleParameter("messageId", OracleDbType.Decimal);
+            OracleParameter messageIdParam = new OracleParameter("messageId", OracleType.Number);
             messageIdParam.Value = messageId;
             query.Command.Parameters.Add(messageIdParam);
 
@@ -114,7 +113,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter threadIdParam = new OracleParameter("threadId", OracleDbType.Decimal);
+            OracleParameter threadIdParam = new OracleParameter("threadId", OracleType.Number);
             threadIdParam.Value = threadId;
             query.Command.Parameters.Add(threadIdParam);
 
@@ -167,9 +166,8 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
 
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
-            query.Command.InitialLOBFetchSize = -1; // setting this to -1 causes the SM.BODY column to be fetched inline - 10X performance increase
 
-            OracleParameter idParam = new OracleParameter("secureMessageId", OracleDbType.Decimal);
+            OracleParameter idParam = new OracleParameter("secureMessageId", OracleType.Number);
             idParam.Value = Convert.ToDecimal(messageId);
             query.Command.Parameters.Add(idParam);
 
@@ -228,17 +226,16 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
 
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sb.ToString());
-            query.Command.InitialLOBFetchSize = -1; // setting this to -1 causes the SM.BODY column to be fetched inline - 10X performance increase
 
-            OracleParameter idParam = new OracleParameter("userId", OracleDbType.Decimal);
+            OracleParameter idParam = new OracleParameter("userId", OracleType.Number);
             idParam.Value = Convert.ToDecimal(userId);
             query.Command.Parameters.Add(idParam);
 
-            OracleParameter pageStartParam = new OracleParameter("pageStart", OracleDbType.Decimal);
+            OracleParameter pageStartParam = new OracleParameter("pageStart", OracleType.Number);
             pageStartParam.Value = Convert.ToDecimal(pageStart);
             query.Command.Parameters.Add(pageStartParam);
 
-            OracleParameter pageSizeParam = new OracleParameter("pageSize", OracleDbType.Decimal);
+            OracleParameter pageSizeParam = new OracleParameter("pageSize", OracleType.Number);
             if (pageSize == 0)
             {
                 pageSize = 25; // set default to 25
@@ -339,21 +336,20 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
 
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sb.ToString());
-            query.Command.InitialLOBFetchSize = -1; // setting this to -1 causes the SM.BODY column to be fetched inline - 10X performance increase
 
-            OracleParameter idParam = new OracleParameter("userId", OracleDbType.Decimal);
+            OracleParameter idParam = new OracleParameter("userId", OracleType.Number);
             idParam.Value = Convert.ToDecimal(userId);
             query.Command.Parameters.Add(idParam);
 
-            OracleParameter folderIdParam = new OracleParameter("folderId", OracleDbType.Decimal);
+            OracleParameter folderIdParam = new OracleParameter("folderId", OracleType.Number);
             folderIdParam.Value = Convert.ToDecimal(folderId);
             query.Command.Parameters.Add(folderIdParam);
 
-            OracleParameter pageStartParam = new OracleParameter("pageStart", OracleDbType.Decimal);
+            OracleParameter pageStartParam = new OracleParameter("pageStart", OracleType.Number);
             pageStartParam.Value = Convert.ToDecimal(pageStart);
             query.Command.Parameters.Add(pageStartParam);
 
-            OracleParameter pageSizeParam = new OracleParameter("pageSize", OracleDbType.Decimal);
+            OracleParameter pageSizeParam = new OracleParameter("pageSize", OracleType.Number);
             if (pageSize == 0)
             {
                 pageSize = 25; // set default to 25
@@ -377,7 +373,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
 
             if (rowsAffected == 1)
             {
-                thread.Id = ((Oracle.DataAccess.Types.OracleDecimal)query.Command.Parameters["outId"].Value).ToInt32();
+                thread.Id = Decimal.ToInt32(((Decimal)query.Command.Parameters["outId"].Value));
                 return thread;
             }
             else
@@ -396,11 +392,11 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter subjectParam = new OracleParameter("subject", OracleDbType.Varchar2, 512);
+            OracleParameter subjectParam = new OracleParameter("subject", OracleType.VarChar, 512);
             subjectParam.Value = thread.Subject;
             query.Command.Parameters.Add(subjectParam);
 
-            OracleParameter triageGroupParam = new OracleParameter("triageGroupId", OracleDbType.Decimal);
+            OracleParameter triageGroupParam = new OracleParameter("triageGroupId", OracleType.Number);
             if (thread.MailGroup == null || thread.MailGroup.Id <= 0)
             {
                 triageGroupParam.Value = DBNull.Value;
@@ -411,19 +407,19 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             query.Command.Parameters.Add(triageGroupParam);
 
-            OracleParameter createdDateParam = new OracleParameter("createdDate", OracleDbType.Date);
-            createdDateParam.Value = new Oracle.DataAccess.Types.OracleDate(DateTime.Now);
+            OracleParameter createdDateParam = new OracleParameter("createdDate", OracleType.DateTime);
+            createdDateParam.Value = new OracleDateTime(DateTime.Now);
             query.Command.Parameters.Add(createdDateParam);
 
-            OracleParameter modifiedDateParam = new OracleParameter("modifiedDate", OracleDbType.Date);
-            modifiedDateParam.Value = new Oracle.DataAccess.Types.OracleDate(DateTime.Now);
+            OracleParameter modifiedDateParam = new OracleParameter("modifiedDate", OracleType.DateTime);
+            modifiedDateParam.Value = new OracleDateTime(DateTime.Now);
             query.Command.Parameters.Add(modifiedDateParam);
 
-            OracleParameter categoryTypeParam = new OracleParameter("categoryType", OracleDbType.Decimal);
+            OracleParameter categoryTypeParam = new OracleParameter("categoryType", OracleType.Number);
             categoryTypeParam.Value = (Int32)thread.MessageCategoryType;
             query.Command.Parameters.Add(categoryTypeParam);
 
-            OracleParameter outParam = new OracleParameter("outId", OracleDbType.Decimal);
+            OracleParameter outParam = new OracleParameter("outId", OracleType.Number);
             outParam.Direction = ParameterDirection.Output;
             query.Command.Parameters.Add(outParam);
 
@@ -455,11 +451,11 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter subjectParam = new OracleParameter("subject", OracleDbType.Varchar2, 512);
+            OracleParameter subjectParam = new OracleParameter("subject", OracleType.VarChar, 512);
             subjectParam.Value = thread.Subject;
             query.Command.Parameters.Add(subjectParam);
 
-            OracleParameter triageGroupParam = new OracleParameter("triageGroupId", OracleDbType.Decimal);
+            OracleParameter triageGroupParam = new OracleParameter("triageGroupId", OracleType.Number);
             if (thread.MailGroup == null || thread.MailGroup.Id <= 0)
             {
                 triageGroupParam.Value = DBNull.Value;
@@ -470,23 +466,23 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             query.Command.Parameters.Add(triageGroupParam);
 
-            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleDbType.Decimal);
+            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleType.Number);
             oplockPlusOneParam.Value = Convert.ToDecimal(thread.Oplock + 1);
             query.Command.Parameters.Add(oplockPlusOneParam);
 
-            OracleParameter modifiedDateParam = new OracleParameter("modifiedDate", OracleDbType.Date);
-            modifiedDateParam.Value = new Oracle.DataAccess.Types.OracleDate(DateTime.Now);
+            OracleParameter modifiedDateParam = new OracleParameter("modifiedDate", OracleType.DateTime);
+            modifiedDateParam.Value = new OracleDateTime(DateTime.Now);
             query.Command.Parameters.Add(modifiedDateParam);
 
-            OracleParameter categoryTypeParam = new OracleParameter("categoryType", OracleDbType.Decimal);
+            OracleParameter categoryTypeParam = new OracleParameter("categoryType", OracleType.Number);
             categoryTypeParam.Value = (Int32)thread.MessageCategoryType;
             query.Command.Parameters.Add(categoryTypeParam);
 
-            OracleParameter threadIdParam = new OracleParameter("threadId", OracleDbType.Decimal);
+            OracleParameter threadIdParam = new OracleParameter("threadId", OracleType.Number);
             threadIdParam.Value = Convert.ToDecimal(thread.Id);
             query.Command.Parameters.Add(threadIdParam);
 
-            OracleParameter oplockParam = new OracleParameter("oplock", OracleDbType.Decimal);
+            OracleParameter oplockParam = new OracleParameter("oplock", OracleType.Number);
             oplockParam.Value = Convert.ToDecimal(thread.Oplock);
             query.Command.Parameters.Add(oplockParam);
 
@@ -526,7 +522,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter threadIdParam = new OracleParameter("threadId", OracleDbType.Decimal);
+            OracleParameter threadIdParam = new OracleParameter("threadId", OracleType.Number);
             threadIdParam.Value = Convert.ToDecimal(threadId);
             query.Command.Parameters.Add(threadIdParam);
 
@@ -550,7 +546,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter threadIdParam = new OracleParameter("threadId", OracleDbType.Decimal);
+            OracleParameter threadIdParam = new OracleParameter("threadId", OracleType.Number);
             threadIdParam.Value = Convert.ToDecimal(threadId);
             query.Command.Parameters.Add(threadIdParam);
 
@@ -577,7 +573,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = buildCreateMessageQuery(message);
             nonQuery nq = delegate() { return query.Command.ExecuteNonQuery(); };
             Int32 rowsAffected = (Int32)_cxn.query(query, nq);
-            message.Id = ((Oracle.DataAccess.Types.OracleDecimal)query.Command.Parameters["outId"].Value).ToInt32();
+            message.Id = Decimal.ToInt32(((Decimal)query.Command.Parameters["outId"].Value));
 
             return message;
         }
@@ -602,7 +598,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             buildMessageCommand(query.Command, message);
 
             // add out ID - not in helper function
-            OracleParameter outParam = new OracleParameter("outId", OracleDbType.Decimal);
+            OracleParameter outParam = new OracleParameter("outId", OracleType.Number);
             outParam.Direction = ParameterDirection.Output;
             command.Parameters.Add(outParam);
 
@@ -644,18 +640,18 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             // the ordering of these is hokey because the OracleParameters collection needs to have the values bound in the order
             // they appear in the SQL statement. Trying to re-use the buildMessageCommand query... could just past here but ok for now
 
-            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleDbType.Decimal);
+            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleType.Number);
             oplockPlusOneParam.Value = Convert.ToDecimal(message.Oplock + 1);
             query.Command.Parameters.Add(oplockPlusOneParam);
 
             buildMessageCommand(query.Command, message);
 
             // add the id param - not in helper function above
-            OracleParameter idParam = new OracleParameter("secureMessageId", OracleDbType.Decimal);
+            OracleParameter idParam = new OracleParameter("secureMessageId", OracleType.Number);
             idParam.Value = Convert.ToDecimal(message.Id);
             query.Command.Parameters.Add(idParam);
 
-            OracleParameter oplockParam = new OracleParameter("oplock", OracleDbType.Decimal);
+            OracleParameter oplockParam = new OracleParameter("oplock", OracleType.Number);
             oplockParam.Value = Convert.ToDecimal(message.Oplock);
             query.Command.Parameters.Add(oplockParam);
 
@@ -695,7 +691,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter msgIdParam = new OracleParameter("secureMessageId", OracleDbType.Decimal);
+            OracleParameter msgIdParam = new OracleParameter("secureMessageId", OracleType.Number);
             msgIdParam.Value = Convert.ToDecimal(messageId);
             query.Command.Parameters.Add(msgIdParam);
 
@@ -722,7 +718,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter messageIdParam = new OracleParameter("messageId", OracleDbType.Decimal);
+            OracleParameter messageIdParam = new OracleParameter("messageId", OracleType.Number);
             messageIdParam.Value = Convert.ToDecimal(messageId);
             query.Command.Parameters.Add(messageIdParam);
 
@@ -1377,7 +1373,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             buildMessageCommand(query.Command, message);
 
             // add out ID - not in helper function
-            OracleParameter outParam = new OracleParameter("outId", OracleDbType.Decimal);
+            OracleParameter outParam = new OracleParameter("outId", OracleType.Number);
             outParam.Direction = ParameterDirection.Output;
             command.Parameters.Add(outParam);
 
@@ -1386,14 +1382,14 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
 
         internal OracleCommand buildMessageCommand(OracleCommand command, Message message)
         {
-            OracleParameter clinicianStatusParam = new OracleParameter("clinicianStatus", OracleDbType.Decimal);
+            OracleParameter clinicianStatusParam = new OracleParameter("clinicianStatus", OracleType.Number);
             clinicianStatusParam.Value = message.Status;
             command.Parameters.Add(clinicianStatusParam);
 
-            OracleParameter completedDateParam = new OracleParameter("completedDate", OracleDbType.Date);
+            OracleParameter completedDateParam = new OracleParameter("completedDate", OracleType.DateTime);
             if (message.CompletedDate != null && message.CompletedDate.Year > 1900)
             {
-                completedDateParam.Value = new Oracle.DataAccess.Types.OracleDate(message.CompletedDate);
+                completedDateParam.Value = new OracleDateTime(message.CompletedDate);
             }
             else
             {
@@ -1401,7 +1397,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(completedDateParam);
 
-            OracleParameter assignedToParam = new OracleParameter("assignedTo", OracleDbType.Decimal);
+            OracleParameter assignedToParam = new OracleParameter("assignedTo", OracleType.Number);
             if (message.AssignedTo != null && message.AssignedTo.Id != 0)
             {
                 assignedToParam.Value = Convert.ToDecimal(message.AssignedTo.Id);
@@ -1412,7 +1408,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(assignedToParam);
 
-            OracleParameter checksumParam = new OracleParameter("checksum", OracleDbType.Char, 32);
+            OracleParameter checksumParam = new OracleParameter("checksum", OracleType.Char, 32);
             if (!String.IsNullOrEmpty(message.Checksum))
             {
                 checksumParam.Value = message.Checksum;
@@ -1427,7 +1423,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(checksumParam);
 
-            OracleParameter threadIdParam = new OracleParameter("threadId", OracleDbType.Decimal);
+            OracleParameter threadIdParam = new OracleParameter("threadId", OracleType.Number);
             // no longer creating thread here...
             // must supply a message thread with a subject and no ID to create a new thread on the fly
             //if (message.MessageThread != null && message.MessageThread.Id == 0 && !String.IsNullOrEmpty(message.MessageThread.Subject)) 
@@ -1441,7 +1437,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             threadIdParam.Value = Convert.ToDecimal(message.MessageThread.Id);
             command.Parameters.Add(threadIdParam);
 
-            OracleParameter statusSetByParam = new OracleParameter("statusSetBy", OracleDbType.Decimal);
+            OracleParameter statusSetByParam = new OracleParameter("statusSetBy", OracleType.Number);
             if (message.StatusSetBy != null && message.StatusSetBy.Id > 0)
             {
                 statusSetByParam.Value = Convert.ToDecimal(message.StatusSetBy.Id);
@@ -1453,18 +1449,18 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             command.Parameters.Add(statusSetByParam);
 
             // TODO - fix created date to use Message.CreatedDate property so we're not updating it every time. Ok now while testing...
-            //OracleParameter createdDateParam = new OracleParameter("createdDate", OracleDbType.Date);
+            //OracleParameter createdDateParam = new OracleParameter("createdDate", OracleType.Date);
             //createdDateParam.Value = new Oracle.DataAccess.Types.OracleDate(DateTime.Now);
             //command.Parameters.Add(createdDateParam);
 
-            OracleParameter modifiedDateParam = new OracleParameter("modifiedDate", OracleDbType.Date);
-            modifiedDateParam.Value = new Oracle.DataAccess.Types.OracleDate(DateTime.Now);
+            OracleParameter modifiedDateParam = new OracleParameter("modifiedDate", OracleType.DateTime);
+            modifiedDateParam.Value = new OracleDateTime(DateTime.Now);
             command.Parameters.Add(modifiedDateParam);
 
-            OracleParameter escalatedParam = new OracleParameter("escalated", OracleDbType.Date);
+            OracleParameter escalatedParam = new OracleParameter("escalated", OracleType.DateTime);
             if (message.EscalatedDate != null && message.EscalatedDate.Year > 1900)
             {
-                escalatedParam.Value = new Oracle.DataAccess.Types.OracleDate(message.EscalatedDate);
+                escalatedParam.Value = new OracleDateTime(message.EscalatedDate);
             }
             else
             {
@@ -1472,14 +1468,14 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(escalatedParam);
 
-            OracleParameter bodyParam = new OracleParameter("body", OracleDbType.Clob);
+            OracleParameter bodyParam = new OracleParameter("body", OracleType.Clob);
             bodyParam.Value = message.Body;
             command.Parameters.Add(bodyParam);
 
-            OracleParameter sentDateParam = new OracleParameter("sentDate", OracleDbType.Date);
+            OracleParameter sentDateParam = new OracleParameter("sentDate", OracleType.DateTime);
             if (message.SentDate != null && message.SentDate.Year > 1900)
             {
-                sentDateParam.Value = new Oracle.DataAccess.Types.OracleDate(message.SentDate);
+                sentDateParam.Value = new OracleDateTime(message.SentDate);
             }
             else
             {
@@ -1487,19 +1483,19 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(sentDateParam);
 
-            OracleParameter senderTypeParam = new OracleParameter("senderType", OracleDbType.Decimal);
+            OracleParameter senderTypeParam = new OracleParameter("senderType", OracleType.Number);
             senderTypeParam.Value = Convert.ToDecimal((Int32)message.SenderType);
             command.Parameters.Add(senderTypeParam);
 
-            OracleParameter senderIdParam = new OracleParameter("senderId", OracleDbType.Decimal);
+            OracleParameter senderIdParam = new OracleParameter("senderId", OracleType.Number);
             senderIdParam.Value = Convert.ToDecimal(message.SenderId);
             command.Parameters.Add(senderIdParam);
 
-            OracleParameter senderNameParam = new OracleParameter("senderName", OracleDbType.Varchar2, 100);
+            OracleParameter senderNameParam = new OracleParameter("senderName", OracleType.VarChar, 100);
             senderNameParam.Value = message.SenderName;
             command.Parameters.Add(senderNameParam);
 
-            OracleParameter recipientTypeParam = new OracleParameter("recipientType", OracleDbType.Decimal);
+            OracleParameter recipientTypeParam = new OracleParameter("recipientType", OracleType.Number);
             if (message.RecipientType != null)
             {
                 recipientTypeParam.Value = Convert.ToDecimal((Int32)message.RecipientType);
@@ -1510,7 +1506,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(recipientTypeParam);
 
-            OracleParameter recipientIdParam = new OracleParameter("recipientId", OracleDbType.Decimal);
+            OracleParameter recipientIdParam = new OracleParameter("recipientId", OracleType.Number);
             if (message.RecipientId > 0)
             {
                 recipientIdParam.Value = Convert.ToDecimal(message.RecipientId);
@@ -1521,7 +1517,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(recipientIdParam);
 
-            OracleParameter recipientNameParam = new OracleParameter("recipientName", OracleDbType.Varchar2, 100);
+            OracleParameter recipientNameParam = new OracleParameter("recipientName", OracleType.VarChar, 100);
             if (!String.IsNullOrEmpty(message.RecipientName))
             {
                 recipientNameParam.Value = message.RecipientName;
@@ -1532,10 +1528,10 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(recipientNameParam);
 
-            OracleParameter sentDateLocalParam = new OracleParameter("sentDateLocal", OracleDbType.Date);
+            OracleParameter sentDateLocalParam = new OracleParameter("sentDateLocal", OracleType.DateTime);
             if (message.SentDateLocal != null && message.SentDateLocal.Year > 1900)
             {
-                sentDateLocalParam.Value = new Oracle.DataAccess.Types.OracleDate(message.SentDateLocal);
+                sentDateLocalParam.Value = new OracleDateTime(message.SentDateLocal);
             }
             else
             {
@@ -1543,10 +1539,10 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(sentDateLocalParam);
 
-            OracleParameter escalationNotificationDateParam = new OracleParameter("escalationNotificationDate", OracleDbType.Date);
+            OracleParameter escalationNotificationDateParam = new OracleParameter("escalationNotificationDate", OracleType.DateTime);
             if (message.EscalationNotificationDate != null && message.EscalationNotificationDate.Year > 1900)
             {
-                escalationNotificationDateParam.Value = new Oracle.DataAccess.Types.OracleDate(message.EscalationNotificationDate);
+                escalationNotificationDateParam.Value = new OracleDateTime(message.EscalationNotificationDate);
             }
             else
             {
@@ -1554,7 +1550,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(escalationNotificationDateParam);
 
-            OracleParameter escalationNotificationTriesParam = new OracleParameter("escalationNotificationTries", OracleDbType.Decimal);
+            OracleParameter escalationNotificationTriesParam = new OracleParameter("escalationNotificationTries", OracleType.Number);
             if (message.EscalationNotificationTries > 0)
             {
                 escalationNotificationTriesParam.Value = Convert.ToDecimal(message.EscalationNotificationTries);
@@ -1565,7 +1561,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(escalationNotificationTriesParam);
 
-            OracleParameter readReceiptParam = new OracleParameter("readReceipt", OracleDbType.Varchar2, 20);
+            OracleParameter readReceiptParam = new OracleParameter("readReceipt", OracleType.VarChar, 20);
             if (!String.IsNullOrEmpty(message.ReadReceipt))
             {
                 readReceiptParam.Value = message.ReadReceipt;
@@ -1576,11 +1572,11 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             command.Parameters.Add(readReceiptParam);
 
-            OracleParameter hasAttachmentParam = new OracleParameter("hasAttachment", OracleDbType.Decimal);
+            OracleParameter hasAttachmentParam = new OracleParameter("hasAttachment", OracleType.Number);
             hasAttachmentParam.Value = Convert.ToDecimal(message.Attachment ? 1 : 0);
             command.Parameters.Add(hasAttachmentParam);
 
-            OracleParameter attachmentIdParam = new OracleParameter("attachmentId", OracleDbType.Decimal);
+            OracleParameter attachmentIdParam = new OracleParameter("attachmentId", OracleType.Number);
             if (message.Attachment && message.AttachmentId > 0)
             {
                 attachmentIdParam.Value = Convert.ToDecimal(message.AttachmentId);

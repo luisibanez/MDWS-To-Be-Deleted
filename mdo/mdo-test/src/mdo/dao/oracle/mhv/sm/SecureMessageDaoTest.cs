@@ -26,7 +26,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using gov.va.medora.utils;
-using Oracle.DataAccess.Client;
+using System.Data.OracleClient;
 
 namespace gov.va.medora.mdo.dao.oracle.mhv.sm
 {

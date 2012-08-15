@@ -20,7 +20,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Oracle.DataAccess.Client;
+using System.Data.OracleClient;
 using System.Data;
 using gov.va.medora.mdo.exceptions;
 using gov.va.medora.mdo.domain.sm;
@@ -49,7 +49,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
                 throw new MdoException("Unable to insert new message attachment");
             }
             MessageAttachment result = new MessageAttachment() { AttachmentName = attachmentName, MimeType = mimeType };
-            result.Id = ((Oracle.DataAccess.Types.OracleDecimal)request.Command.Parameters["outId"].Value).ToInt32();
+            result.Id = Decimal.ToInt32(((Decimal)request.Command.Parameters["outId"].Value));
             return result;
         }
 
@@ -61,19 +61,19 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter attachmentNameParam = new OracleParameter("attachmentName", OracleDbType.Varchar2, 80);
+            OracleParameter attachmentNameParam = new OracleParameter("attachmentName", OracleType.VarChar, 80);
             attachmentNameParam.Value = attachmentName;
             query.Command.Parameters.Add(attachmentNameParam);
 
-            OracleParameter attachmentParam = new OracleParameter("attachment", OracleDbType.Blob);
+            OracleParameter attachmentParam = new OracleParameter("attachment", OracleType.Blob);
             attachmentParam.Value = attachment;
             query.Command.Parameters.Add(attachmentParam);
 
-            OracleParameter mimeTypeParam = new OracleParameter("mimeType", OracleDbType.Varchar2, 100);
+            OracleParameter mimeTypeParam = new OracleParameter("mimeType", OracleType.VarChar, 100);
             mimeTypeParam.Value = mimeType;
             query.Command.Parameters.Add(mimeTypeParam);
 
-            OracleParameter outIdParam = new OracleParameter("outId", OracleDbType.Decimal);
+            OracleParameter outIdParam = new OracleParameter("outId", OracleType.Number);
             outIdParam.Direction = ParameterDirection.Output;
             query.Command.Parameters.Add(outIdParam);
 
@@ -96,9 +96,8 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
 
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
-            query.Command.InitialLOBFetchSize = -1; // better performance - returns BLOB inline
 
-            OracleParameter attachmentIdParam = new OracleParameter("attachmentId", OracleDbType.Decimal);
+            OracleParameter attachmentIdParam = new OracleParameter("attachmentId", OracleType.Number);
             attachmentIdParam.Value = attachmentId;
             query.Command.Parameters.Add(attachmentIdParam);
 
@@ -138,27 +137,27 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter attachmentNameParam = new OracleParameter("attachmentName", OracleDbType.Varchar2, 80);
+            OracleParameter attachmentNameParam = new OracleParameter("attachmentName", OracleType.VarChar, 80);
             attachmentNameParam.Value = attachment.AttachmentName;
             query.Command.Parameters.Add(attachmentNameParam);
 
-            OracleParameter attachmentParam = new OracleParameter("attachment", OracleDbType.Blob);
+            OracleParameter attachmentParam = new OracleParameter("attachment", OracleType.Blob);
             attachmentParam.Value = attachment.SmFile;
             query.Command.Parameters.Add(attachmentParam);
 
-            OracleParameter mimeTypeParam = new OracleParameter("mimeType", OracleDbType.Varchar2, 100);
+            OracleParameter mimeTypeParam = new OracleParameter("mimeType", OracleType.VarChar, 100);
             mimeTypeParam.Value = attachment.MimeType;
             query.Command.Parameters.Add(mimeTypeParam);
 
-            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleDbType.Decimal);
+            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleType.Number);
             oplockPlusOneParam.Value = attachment.Oplock + 1;
             query.Command.Parameters.Add(oplockPlusOneParam);
 
-            OracleParameter attachmentIdParam = new OracleParameter("attachmentId", OracleDbType.Decimal);
+            OracleParameter attachmentIdParam = new OracleParameter("attachmentId", OracleType.Number);
             attachmentIdParam.Value = attachment.Id;
             query.Command.Parameters.Add(attachmentIdParam);
 
-            OracleParameter oplockParam = new OracleParameter("oplock", OracleDbType.Decimal);
+            OracleParameter oplockParam = new OracleParameter("oplock", OracleType.Number);
             oplockParam.Value = attachment.Oplock;
             query.Command.Parameters.Add(oplockParam);
 
@@ -184,7 +183,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter attachmentIdParam = new OracleParameter("attachmentId", OracleDbType.Decimal);
+            OracleParameter attachmentIdParam = new OracleParameter("attachmentId", OracleType.Number);
             attachmentIdParam.Value = attachmentId;
             query.Command.Parameters.Add(attachmentIdParam);
 
@@ -257,15 +256,15 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleCommand command = new OracleCommand(sql);
             query.Command = command;
 
-            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleDbType.Decimal);
+            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleType.Number);
             oplockPlusOneParam.Value = Convert.ToDecimal(message.Oplock + 1);
             query.Command.Parameters.Add(oplockPlusOneParam);
 
-            OracleParameter modifiedParam = new OracleParameter("modifiedDate", OracleDbType.Date);
-            modifiedParam.Value = new Oracle.DataAccess.Types.OracleDate(DateTime.Now);
+            OracleParameter modifiedParam = new OracleParameter("modifiedDate", OracleType.DateTime);
+            modifiedParam.Value = new OracleDateTime(DateTime.Now);
             query.Command.Parameters.Add(modifiedParam);
 
-            OracleParameter attachmentIdParam = new OracleParameter("attachmentId", OracleDbType.Decimal);
+            OracleParameter attachmentIdParam = new OracleParameter("attachmentId", OracleType.Number);
             if (attachmentId > 0)
             {
                 attachmentIdParam.Value = Convert.ToDecimal(attachmentId);
@@ -276,11 +275,11 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             }
             query.Command.Parameters.Add(attachmentIdParam);
 
-            OracleParameter idParam = new OracleParameter("secureMessageId", OracleDbType.Decimal);
+            OracleParameter idParam = new OracleParameter("secureMessageId", OracleType.Number);
             idParam.Value = Convert.ToDecimal(message.Id);
             query.Command.Parameters.Add(idParam);
 
-            OracleParameter oplockParam = new OracleParameter("oplock", OracleDbType.Decimal);
+            OracleParameter oplockParam = new OracleParameter("oplock", OracleType.Number);
             oplockParam.Value = Convert.ToDecimal(message.Oplock);
             query.Command.Parameters.Add(oplockParam);
 

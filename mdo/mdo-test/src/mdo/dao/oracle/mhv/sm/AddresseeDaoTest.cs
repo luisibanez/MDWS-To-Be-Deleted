@@ -25,7 +25,7 @@ using System.Data;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
-using Oracle.DataAccess.Client;
+using System.Data.OracleClient;
 
 namespace gov.va.medora.mdo.dao.oracle.mhv.sm
 {
@@ -81,7 +81,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             AddresseeDao dao = new AddresseeDao(_cxn);
             OracleQuery query = dao.buildReadMessageRequest(new domain.sm.Addressee() { ReadDate = DateTime.Now });
             Assert.IsTrue(String.Equals(query.Command.CommandText, "UPDATE SMS.ADDRESSEE SET READ_DATE=:readDate, OPLOCK=:oplockPlusOne, MODIFIED_DATE=:modifiedDate WHERE ADDRESSEE_ID=:addresseeId AND OPLOCK=:oplock RETURNING SECURE_MESSAGE_ID INTO :outId"));
-            Assert.IsTrue(((Oracle.DataAccess.Types.OracleDate)query.Command.Parameters["readDate"].Value).Year > 1900, "The read date should be set");
+            Assert.IsTrue(((OracleDateTime)query.Command.Parameters["readDate"].Value).Year > 1900, "The read date should be set");
         }
 
 

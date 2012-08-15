@@ -21,8 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
+using System.Data.OracleClient;
 using gov.va.medora.mdo.exceptions;
 
 namespace gov.va.medora.mdo.dao.oracle.mhv.sm
@@ -55,7 +54,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter folderIdParam = new OracleParameter("folderId", OracleDbType.Decimal);
+            OracleParameter folderIdParam = new OracleParameter("folderId", OracleType.Number);
             folderIdParam.Value = folderId;
             query.Command.Parameters.Add(folderIdParam);
 
@@ -83,7 +82,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter folderIdParam = new OracleParameter("folderId", OracleDbType.Decimal);
+            OracleParameter folderIdParam = new OracleParameter("folderId", OracleType.Number);
             folderIdParam.Value = folderId;
             query.Command.Parameters.Add(folderIdParam);
 
@@ -113,23 +112,23 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter folderNameParam = new OracleParameter("folderName", OracleDbType.Varchar2, 50);
+            OracleParameter folderNameParam = new OracleParameter("folderName", OracleType.VarChar, 50);
             folderNameParam.Value = folder.Name;
             query.Command.Parameters.Add(folderNameParam);
 
-            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleDbType.Decimal);
+            OracleParameter oplockPlusOneParam = new OracleParameter("oplockPlusOne", OracleType.Number);
             oplockPlusOneParam.Value = folder.Oplock + 1;
             query.Command.Parameters.Add(oplockPlusOneParam);
 
-            OracleParameter modifiedParam = new OracleParameter("modifiedDate", OracleDbType.Date);
-            modifiedParam.Value = new OracleDate(DateTime.Now);
+            OracleParameter modifiedParam = new OracleParameter("modifiedDate", OracleType.DateTime);
+            modifiedParam.Value = new OracleDateTime(DateTime.Now);
             query.Command.Parameters.Add(modifiedParam);
 
-            OracleParameter folderIdParam = new OracleParameter("folderId", OracleDbType.Decimal);
+            OracleParameter folderIdParam = new OracleParameter("folderId", OracleType.Number);
             folderIdParam.Value = folder.Id;
             query.Command.Parameters.Add(folderIdParam);
 
-            OracleParameter oplockParam = new OracleParameter("oplock", OracleDbType.Decimal);
+            OracleParameter oplockParam = new OracleParameter("oplock", OracleType.Number);
             oplockParam.Value = folder.Oplock;
             query.Command.Parameters.Add(oplockParam);
 
@@ -148,7 +147,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             {
                 throw new MdoException("Unable to create folder");
             }
-            folder.Id = ((Oracle.DataAccess.Types.OracleDecimal)request.Command.Parameters["outId"].Value).ToInt32();
+            folder.Id = Decimal.ToInt32 (((Decimal)request.Command.Parameters["outId"].Value));
             return folder;
         }
 
@@ -159,15 +158,15 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter userIdParam = new OracleParameter("userId", OracleDbType.Decimal);
+            OracleParameter userIdParam = new OracleParameter("userId", OracleType.Number);
             userIdParam.Value = folder.Owner.Id;
             query.Command.Parameters.Add(userIdParam);
 
-            OracleParameter folderNameParam = new OracleParameter("folderName", OracleDbType.Varchar2, 50);
+            OracleParameter folderNameParam = new OracleParameter("folderName", OracleType.VarChar, 50);
             folderNameParam.Value = folder.Name;
             query.Command.Parameters.Add(folderNameParam);
 
-            OracleParameter outIdParam = new OracleParameter("outId", OracleDbType.Decimal);
+            OracleParameter outIdParam = new OracleParameter("outId", OracleType.Number);
             outIdParam.Direction = ParameterDirection.Output;
             query.Command.Parameters.Add(outIdParam);
 
@@ -251,11 +250,11 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter userIdParam = new OracleParameter("userId", OracleDbType.Decimal);
+            OracleParameter userIdParam = new OracleParameter("userId", OracleType.Number);
             userIdParam.Value = Convert.ToDecimal(userId);
             query.Command.Parameters.Add(userIdParam);
 
-            OracleParameter folderIdParam = new OracleParameter("folderId", OracleDbType.Decimal);
+            OracleParameter folderIdParam = new OracleParameter("folderId", OracleType.Number);
             folderIdParam.Value = Convert.ToDecimal(folderId);
             query.Command.Parameters.Add(folderIdParam);
 
@@ -277,7 +276,7 @@ namespace gov.va.medora.mdo.dao.oracle.mhv.sm
             OracleQuery query = new OracleQuery();
             query.Command = new OracleCommand(sql);
 
-            OracleParameter userIdParam = new OracleParameter("userId", OracleDbType.Decimal);
+            OracleParameter userIdParam = new OracleParameter("userId", OracleType.Number);
             userIdParam.Value = Convert.ToDecimal(userId);
             query.Command.Parameters.Add(userIdParam);
 
