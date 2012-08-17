@@ -21,6 +21,7 @@ using System.Data;
 using System.Configuration;
 using System.Web;
 using System.Web.Security;
+using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
@@ -36,8 +37,8 @@ namespace gov.va.medora.mdws
     public class MdwsConstants
     {
         // Paths
-        public const string STATES_FILE_NAME = "xml\\VhaSitesByState.xml";
-        public const string VISNS_BY_STATE_FILE_NAME = "xml\\VisnsByState.xml";
+        public static readonly string STATES_FILE_NAME = Path.Combine("xml","VhaSitesByState.xml");
+        public static readonly string VISNS_BY_STATE_FILE_NAME = Path.Combine ("xml","VisnsByState.xml");
         public const string DEFAULT_SITES_FILE_NAME = "VhaSites.xml";
         // Session vars
         // NOTE: If you change SITE_TABLE, make sure you change web.config as well
