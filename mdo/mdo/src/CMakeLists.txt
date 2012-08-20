@@ -14,15 +14,5 @@
 # limitations under the License.
 #---------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 2.8.0)
-
-project(MDWS)
-
-set(MDWS_CMAKE_DIR "${MDWS_SOURCE_DIR}/CMake" CACHE INTERNAL "")
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${MDWS_CMAKE_DIR}")
-
-find_package(CSharp REQUIRED)
-include(${CSHARP_USE_FILE})
-
 add_subdirectory(mdo)
-
+add_subdirectory(utils)
